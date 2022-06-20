@@ -82,6 +82,8 @@
 #include "hwc_session.h"
 #include "hwc_debugger.h"
 
+#include <processgroup/processgroup.h>
+
 #define __CLASS__ "HWCSession"
 
 #define HWC_UEVENT_SWITCH_HDMI "change@/devices/virtual/switch/hdmi"
@@ -786,6 +788,14 @@ void HWCSession::PerformIdleStatusCallback(hwc2_display_t display) {
 int32_t HWCSession::PresentDisplay(hwc2_display_t display, shared_ptr<Fence> *out_retire_fence) {
   auto status = HWC2::Error::BadDisplay;
   DTRACE_SCOPED();
+
+  thread_local bool setTaskProfileDone = false;
+  if (setTaskProfileDone == false) {
+        if (!SetTaskProfiles(gettid(), {"SFMainPolicy"})) {
+          DLOGW("Failed to add `%d` into SFMainPolicy", gettid());
+      }
+      setTaskProfileDone = true;
+  }
 
   SCOPE_LOCK(system_locker_);
   if (display >= HWCCallbacks::kNumDisplays) {

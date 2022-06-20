@@ -20,7 +20,7 @@ LOCAL_CLANG                   := true
 LOCAL_SHARED_LIBRARIES        := libhistogram libbinder libhardware libutils libcutils libsync \
                                  libc++ liblog libhidlbase \
                                  liblog libfmq libhardware_legacy \
-                                 libsdmcore libqservice libqdutils libqdMetaData \
+                                 libsdmcore libqservice libqdutils libqdMetaData libprocessgroup \
                                  libdisplaydebug libsdmutils libgrallocutils libui \
                                  libgpu_tonemapper libEGL libGLESv2 libGLESv3 \
                                  vendor.qti.hardware.display.composer@3.0 \
